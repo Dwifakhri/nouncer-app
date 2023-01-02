@@ -2,8 +2,10 @@ import React from "react";
 import { useSelector } from "react-redux";
 import Layout from "../components/Layout";
 import { Link } from "react-router-dom";
+import { useTitle } from "../utils/useTitle";
 
 const Favorites = () => {
+  useTitle("Favorites");
   const favWords = useSelector((state) => state.data.favorites);
 
   return (
@@ -15,7 +17,7 @@ const Favorites = () => {
             <Link key={index} to={`/saved/${item.word}`}>
               <div
                 key={index}
-                className="p-2 shadow-md rounded-lg hover:scale-105 cursor-pointer border  hover:bg-blue-200"
+                className="p-2 shadow-md rounded-lg hover:scale-105 cursor-pointer border  hover:bg-blue-200 capitalize"
               >
                 {item.word}
               </div>
