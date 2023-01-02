@@ -1,7 +1,7 @@
 import React from "react";
 import { AiTwotoneSound, AiFillStar } from "react-icons/ai";
 
-const Box = ({ data, handleFavorites, params }) => {
+const Box = ({ data, handleFavorites, params, clickSound }) => {
   return (
     <>
       {data?.length === 0 || !data ? (
@@ -10,7 +10,8 @@ const Box = ({ data, handleFavorites, params }) => {
         <div className="mt-5">
           <div className="flex space-x-10">
             <p className="text-2xl">
-              Results of <span className="font-semibold">"{data?.word}"</span>
+              Results of{" "}
+              <span className="font-semibold capitalize">"{data?.word}"</span>
             </p>
             {!params && (
               <div
@@ -24,12 +25,16 @@ const Box = ({ data, handleFavorites, params }) => {
           </div>
 
           <div>
-            <div className="flex space-x-5 items-center my-3">
-              <div className="rounded-full shadow-lg shadow-gray-500 p-4">
+            <div className="flex space-x-5 items-center my-3 capitalize">
+              <div
+                onClick={() => clickSound(data?.phonetics[0]?.audio)}
+                className="rounded-full shadow-lg shadow-gray-500 p-4"
+              >
                 <AiTwotoneSound size={30} />
+                {/* <audio src={data?.phonetics[0]?.audio} /> */}
               </div>
               <div className="flex flex-col space-y-2">
-                <p className="font-semibold text-xl">{data?.word}</p>
+                <p className="font-semibold text-xl capitalize">{data?.word}</p>
                 <p>{data?.phonetics[0]?.text}</p>
               </div>
             </div>
@@ -42,7 +47,9 @@ const Box = ({ data, handleFavorites, params }) => {
                 >
                   <div className="flex space-x-10">
                     <p>Part of</p>
-                    <p className="font-semibold">: {item.partOfSpeech}</p>
+                    <p className="font-semibold capitalize">
+                      : {item.partOfSpeech}
+                    </p>
                   </div>
                   <div className="flex space-x-5">
                     <p>Definition</p>
@@ -50,7 +57,7 @@ const Box = ({ data, handleFavorites, params }) => {
                       {item?.definitions?.map((item, index) => (
                         <div key={index}>
                           <p>: {item.definition}</p>
-                          {item.example && <p> ex: {item.example}</p>}
+                          {item.example && <p> Ex: {item.example}</p>}
                         </div>
                       ))}
                     </div>

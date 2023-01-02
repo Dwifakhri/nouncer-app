@@ -4,12 +4,30 @@ import Layout from "../components/Layout";
 import { BsSearch } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { setFavorites } from "../utils/redux/reducers/reducers";
+import { useTitle } from "../utils/useTitle";
+import { Howl } from "howler";
 
 const home = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   // const [loading, setLoading] = useState(false);
   const [keyword, setKeyword] = useState("");
+  const [value, setValue] = useState(0);
+  useTitle("Home");
+
+  // useEffect(() => {
+  //   if (value % 2 == 0) {
+  //     playSound();
+  //   }
+  // }, [value]);
+
+  const playSound = (src) => {
+    const sound = new Howl({
+      src,
+      html5: true,
+    });
+    sound.play();
+  };
 
   const searchWord = async (e) => {
     e.preventDefault();
@@ -20,7 +38,7 @@ const home = () => {
       const results = await response.json();
       setData(results[0]);
     } catch {
-      alert("Field is required");
+      alert("Error");
     }
   };
   const handleFavorites = async (data) => {
@@ -68,7 +86,11 @@ const home = () => {
 
           <BsSearch className="cursor-pointer" onClick={searchWord} />
         </form>
-        <Box data={data} handleFavorites={() => handleFavorites(data)} />
+        <Box
+          data={data}
+          clickSound={() => playSound(src)}
+          handleFavorites={() => handleFavorites(data)}
+        />
       </div>
     </Layout>
   );
