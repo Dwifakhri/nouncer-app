@@ -1,7 +1,8 @@
-import React from "react";
-import { AiTwotoneSound, AiFillStar } from "react-icons/ai";
+import React, { useState } from "react";
+import { AiFillStar } from "react-icons/ai";
+import { AiTwotoneSound } from "react-icons/ai";
 
-const Box = ({ data, handleFavorites, params, clickSound }) => {
+const Box = ({ data, handleFavorites, params, audio }) => {
   return (
     <>
       {data?.length === 0 || !data ? (
@@ -26,13 +27,16 @@ const Box = ({ data, handleFavorites, params, clickSound }) => {
 
           <div>
             <div className="flex space-x-5 items-center my-3 capitalize">
-              <div
-                onClick={() => clickSound(data?.phonetics[0]?.audio)}
-                className="rounded-full shadow-lg shadow-gray-500 p-4"
-              >
-                <AiTwotoneSound size={30} />
-                {/* <audio src={data?.phonetics[0]?.audio} /> */}
-              </div>
+              {audio.src !== null && (
+                <div
+                  onClick={() => {
+                    audio.play();
+                  }}
+                  className="rounded-full shadow-lg shadow-gray-500 p-4 cursor-pointer"
+                >
+                  <AiTwotoneSound size={30} />
+                </div>
+              )}
               <div className="flex flex-col space-y-2">
                 <p className="font-semibold text-xl capitalize">{data?.word}</p>
                 <p>{data?.phonetics[0]?.text}</p>

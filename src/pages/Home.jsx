@@ -5,29 +5,14 @@ import { BsSearch } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { setFavorites } from "../utils/redux/reducers/reducers";
 import { useTitle } from "../utils/useTitle";
-import { Howl } from "howler";
 
 const home = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
+  const [audio, setAudio] = useState(null);
   // const [loading, setLoading] = useState(false);
   const [keyword, setKeyword] = useState("");
-  const [value, setValue] = useState(0);
   useTitle("Home");
-
-  // useEffect(() => {
-  //   if (value % 2 == 0) {
-  //     playSound();
-  //   }
-  // }, [value]);
-
-  const playSound = (src) => {
-    const sound = new Howl({
-      src,
-      html5: true,
-    });
-    sound.play();
-  };
 
   const searchWord = async (e) => {
     e.preventDefault();
@@ -37,6 +22,10 @@ const home = () => {
       );
       const results = await response.json();
       setData(results[0]);
+      const phonetics = results[0].phonetics;
+      if (!phonetics.length) return;
+      const url = phonetics[0].audio;
+      setAudio(new Audio(url));
     } catch {
       alert("Error");
     }
@@ -88,7 +77,7 @@ const home = () => {
         </form>
         <Box
           data={data}
-          clickSound={() => playSound(src)}
+          audio={audio}
           handleFavorites={() => handleFavorites(data)}
         />
       </div>
